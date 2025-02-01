@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/api/v1')]
 class TestController extends AbstractController
@@ -51,6 +51,7 @@ class TestController extends AbstractController
         ], Response::HTTP_OK);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users', name: 'app_create_users', methods: ['POST'])]
     public function createItem(Request $request): JsonResponse
     {
@@ -73,6 +74,7 @@ class TestController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users/{id}', name: 'app_delete_users', methods: ['DELETE'])]
     public function deleteItem(string $id): JsonResponse
     {
@@ -81,6 +83,7 @@ class TestController extends AbstractController
         return new JsonResponse( [], Response::HTTP_NO_CONTENT);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/users/{id}', name: 'app_update_users', methods: ['PATCH'])]
     public function updateItem(string $id, Request $request): JsonResponse
     {
